@@ -1,0 +1,17 @@
+ul {
+  list-style: none;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+.van-nav-bar {
+  background-color: #2f97ec;
+}

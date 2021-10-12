@@ -1,8 +1,8 @@
 {
-  "tabWidth": 2,	// tab缩进大小,默认为2
-  "semi": false,    // 使用分号, 默认true
-  "singleQuote": true,		// 使用单引号, 默认false
-  "bracketSpacing": true,   // 对象中的空格 默认true
-  "arrowParens": "avoid"	//箭头函数能省略括号就省略
-  "printWidth": 140
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "printWidth": 130
 }
