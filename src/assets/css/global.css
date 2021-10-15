@@ -5,13 +5,15 @@ ul {
   margin: 0;
   padding: 0;
 }
-
 html,
 body,
 #app {
   height: 100%;
 }
-
 .van-nav-bar {
   background-color: #2f97ec;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }

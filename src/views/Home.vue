@@ -8,7 +8,7 @@
 
       <li @click="reportClick"><van-icon name="setting" class="homeIcon" /> 点击报修</li>
 
-      <li><van-icon name="printer" class="homeIcon" /> 报修查询</li>
+      <li @click="queryClick"><van-icon name="printer" class="homeIcon" /> 报修查询</li>
     </ul>
   </div>
 </template>
@@ -19,6 +19,9 @@ export default {
     reportClick() {
       this.$router.push('/report')
     },
+    queryClick() {
+      this.$router.push('/repquery')
+    },
   },
 }
 </script>
@@ -26,7 +29,10 @@ export default {
 <style lang="less" scoped>
 #home {
   background-color: #f8f8f8;
-  height: 100%;
+  height: 100vh;
+  overflow: auto;
+  box-sizing: border-box;
+  border-top: 46px solid transparent;
 }
 
 .school {

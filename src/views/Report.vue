@@ -1,12 +1,12 @@
 <template>
   <div id="report">
-    <van-nav-bar title="报修平台" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="立即报修" left-text="返回" left-arrow @click-left="onClickLeft" />
     <div class="school"></div>
     <van-form validate-first @failed="onFailed" @submit="onSubmit">
       <!-- 姓名 -->
       <van-field
         v-model="reportName"
-        name="name"
+        name="u_name"
         label="姓名："
         placeholder="请输入报修人姓名（必填）"
         :rules="[{ required: true, message: '请填写您的姓名！' }]"
@@ -15,12 +15,12 @@
       <!-- 电话 -->
       <van-field
         v-model="reportPhone"
-        name="phone"
+        name="u_phone"
         label="电话："
         type="number"
         placeholder="请输入报修人电话（必填）"
         :rules="[
-          { required: true, message: '请填写您的手机号码！' },
+          { required: true, message: '请填写电话号码！' },
           { name: /^1[3456789]\d{9}$/, message: '手机号码格式错误！' },
         ]"
       />
@@ -30,7 +30,7 @@
       <van-field
         readonly
         clickable
-        name="identity"
+        name="u_identity"
         :value="identityVal"
         label="身份："
         placeholder="请选择报修人身份（必选）"
@@ -64,16 +64,16 @@
       <!-- 详细地址 -->
       <van-field
         v-model="ditailAddress"
-        name="ditailAddress"
+        name="d_address"
         label="详细地址："
         placeholder="请输入详细地址（必填）"
         :rules="[{ required: true, message: '请填写详细地址！' }]"
       />
 
       <!-- 拍照上传 -->
-      <van-field name="uploader" label="拍照上传：">
+      <van-field name="rp_pic" label="拍照上传：">
         <template #input>
-          <van-uploader v-model="uploader" />
+          <van-uploader v-model="uploader" :max-count="1" />
         </template>
       </van-field>
 
@@ -83,14 +83,13 @@
         rows="2"
         autosize
         label="故障描述："
-        name="detailDes"
+        name="rp_describe"
         type="textarea"
         maxlength="120"
         placeholder="请输入详细内容（必填）"
         show-word-limit
         :rules="[{ required: true, message: '请填写详细内容' }]"
       />
-
       <div style="margin: 16px">
         <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
@@ -133,17 +132,21 @@ export default {
         this.$toast.fail('提交失败')
         return
       }
-      values.c_time = Date.parse(new Date())
+      // 报修时间与状态
+      values.rp_time = Date.parse(new Date())
+      values.rp_state = 0
       this.$toast.loading({
         message: '加载中...',
         onClose: async () => {
           const res = await this.$http({
-            method: 'get',
-            params: {
-              values,
-            },
+            method: 'post',
+            url: '/report',
+            data: values,
           })
-          console.log(res)
+          if (res === undefined) {
+            this.$toast.success('提交失败')
+            return
+          }
           this.$toast.success('提交成功')
         },
       })
@@ -175,6 +178,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#report {
+  height: 100vh;
+  overflow: auto;
+  box-sizing: border-box;
+  border-top: 46px solid transparent;
+}
 .school {
   height: 45px;
   margin: 10px 0;
