@@ -8,7 +8,7 @@
         v-model="reportName"
         name="u_name"
         label="姓名："
-        placeholder="请输入报修人姓名（必填）"
+        placeholder="请输入报修人真实姓名（必填）"
         :rules="[{ required: true, message: '请填写您的姓名！' }]"
       />
 
@@ -18,7 +18,7 @@
         name="u_phone"
         label="电话："
         type="number"
-        placeholder="请输入报修人电话（必填）"
+        placeholder="请输入报修人真实电话（必填）"
         :rules="[
           { required: true, message: '请填写电话号码！' },
           { name: /^1[3456789]\d{9}$/, message: '手机号码格式错误！' },

@@ -55,8 +55,7 @@ export default {
         url: '/report',
         params: values,
       })
-
-      if (res === undefined) {
+      if (res === undefined || res.data.list.length === 0) {
         this.tipsText = '暂无记录'
       } else {
         this.reportList = res.data.list
