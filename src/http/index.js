@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:3000/api/private/v1/',
+  baseURL: 'http://127.0.0.1:3000/api/report/v1/',
   timeout: '5000',
   method: 'GET'
 })
@@ -21,6 +21,7 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   res => {
+    console.log(res)
     console.log('响应成功')
     //该返回对象会绑定到响应对象中
     return res

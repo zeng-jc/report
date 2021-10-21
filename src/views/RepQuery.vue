@@ -3,8 +3,8 @@
     <van-nav-bar title="报修记录" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-form @submit="onSubmit">
       <van-field
-        v-model="phone"
-        name="u_phone"
+        v-model="mobile"
+        name="u_mobile"
         label="电话："
         placeholder="请输入电话号码"
         :rules="[
@@ -38,7 +38,7 @@ import { dateFormart } from 'common/utils'
 export default {
   data() {
     return {
-      phone: '',
+      mobile: '',
       // 报告列表
       reportList: [],
       tipsText: '',
@@ -51,7 +51,7 @@ export default {
     },
     // 表单提交方法
     async onSubmit(values) {
-      const res = await this.$http({
+      const { data: res } = await this.$http({
         url: '/report',
         params: values,
       })

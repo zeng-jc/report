@@ -14,8 +14,8 @@
 
       <!-- 电话 -->
       <van-field
-        v-model="reportPhone"
-        name="u_phone"
+        v-model="reportMobile"
+        name="u_mobile"
         label="电话："
         type="number"
         placeholder="请输入报修人真实电话（必填）"
@@ -106,7 +106,7 @@ export default {
       // 提交人姓名
       reportName: 'admin',
       // 提交人电话
-      reportPhone: '18890560823',
+      reportMobile: '18890560823',
       // 上传的图片
       uploader: [],
       // 身份选择
