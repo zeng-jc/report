@@ -55,7 +55,8 @@ export default {
         url: '/report',
         params: values,
       })
-      if (res === undefined || res.data.list.length === 0) {
+      console.log(res)
+      if (res.data.list.length === 0) {
         this.tipsText = '暂无记录'
       } else {
         this.reportList = res.data.list
@@ -70,7 +71,7 @@ export default {
       } else {
         this.$dialog({
           title: '处理人：' + curItem.rp_handler,
-          message: '处理结果' + curItem.rp_result,
+          message: curItem.rp_result,
         })
       }
     },

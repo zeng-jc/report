@@ -8,7 +8,7 @@
         v-model="reportName"
         name="u_name"
         label="姓名："
-        placeholder="请输入报修人真实姓名（必填）"
+        placeholder="报修人真实姓名（必填）"
         :rules="[{ required: true, message: '请填写您的姓名！' }]"
       />
 
@@ -18,7 +18,7 @@
         name="u_mobile"
         label="电话："
         type="number"
-        placeholder="请输入报修人真实电话（必填）"
+        placeholder="报修人真实电话（必填）"
         :rules="[
           { required: true, message: '请填写电话号码！' },
           { name: /^1[3456789]\d{9}$/, message: '手机号码格式错误！' },
@@ -33,7 +33,7 @@
         name="u_identity"
         :value="identityVal"
         label="身份："
-        placeholder="请选择报修人身份（必选）"
+        placeholder="选择报修人身份（必选）"
         @click="showIdentity = true"
       />
       <van-popup v-model="showIdentity" position="bottom">
@@ -47,7 +47,7 @@
         is-link
         readonly
         label="地点："
-        placeholder="请选择学校地点"
+        placeholder="请选择学校地点（必选）"
         @click="showCascader = true"
       />
       <van-popup v-model="showCascader" round position="bottom">
@@ -104,14 +104,14 @@ export default {
   data() {
     return {
       // 提交人姓名
-      reportName: 'admin',
+      reportName: '',
       // 提交人电话
-      reportMobile: '18890560823',
+      reportMobile: '',
       // 上传的图片
       uploader: [],
       // 身份选择
       showIdentity: false,
-      identityVal: '教职工',
+      identityVal: '',
       identityCol: ['教职工', '学生'],
       // 地点选择
       showCascader: false,
@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     // 表单提交
-    onSubmit(values) {
+    async onSubmit(values) {
       if (this.identityVal === '' || this.addressVal === '') {
         this.$toast.fail('提交失败')
         return
@@ -136,22 +136,40 @@ export default {
       values.rp_time = Date.parse(new Date())
       values.rp_state = 0
       this.$toast.loading({
+        duration: 0, // 持续展示 toast
         message: '加载中...',
-        onClose: async () => {
-          const res = await this.$http({
-            method: 'post',
-            url: '/report',
-            data: values,
-          })
-          if (res === undefined) {
-            this.$toast.success('提交失败')
-            return
-          }
-          this.$toast.success('提交成功')
-        },
+        forbidClick: true,
       })
-      console.log('submit', values)
+      const { data: res } = await this.$http({
+        method: 'post',
+        url: '/report',
+        data: values,
+      })
+      if (res.status !== 200) {
+        this.$toast.fail('提交失败')
+        this.$toast.clear()
+        return
+      }
+      setTimeout(() => {
+        this.$toast.success('提交成功')
+        // 提交人姓名
+        this.reportName = ''
+        // 提交人电话
+        this.reportMobile = ''
+        // 上传的图片
+        this.uploader = []
+        this.identityVal = ''
+        this.addressVal = ''
+        this.ditailAddress = ''
+        this.cascaderValue = ''
+        // 详细描述
+        this.detailDes = ''
+      }, 1000)
+      setTimeout(() => {
+        this.$toast.clear()
+      }, 3000)
     },
+
     // 提交失败信息
     onFailed(errorInfo) {
       this.$toast.fail('提交失败')
@@ -162,13 +180,11 @@ export default {
       this.identityVal = value
       this.showIdentity = false
     },
-
     // 级联选择器选择完成
     cmfAddress({ selectedOptions }) {
       this.addressVal = selectedOptions.map(option => option.text).join('/')
       this.showCascader = false
     },
-
     // 返回
     onClickLeft() {
       this.$router.back('/home')
