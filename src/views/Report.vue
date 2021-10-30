@@ -128,8 +128,9 @@ export default {
   methods: {
     // 表单提交
     async onSubmit(values) {
+      console.log(values)
       if (this.identityVal === '' || this.addressVal === '') {
-        this.$toast.fail('提交失败')
+        this.$toast.fail('提交失败，信息不完整')
         return
       }
       // 报修时间与状态
@@ -145,29 +146,32 @@ export default {
         url: '/report',
         data: values,
       })
+
       if (res.status !== 200) {
         this.$toast.fail('提交失败')
         this.$toast.clear()
         return
       }
-      setTimeout(() => {
-        this.$toast.success('提交成功')
-        // 提交人姓名
-        this.reportName = ''
-        // 提交人电话
-        this.reportMobile = ''
-        // 上传的图片
-        this.uploader = []
-        this.identityVal = ''
-        this.addressVal = ''
-        this.ditailAddress = ''
-        this.cascaderValue = ''
-        // 详细描述
-        this.detailDes = ''
-      }, 1000)
-      setTimeout(() => {
-        this.$toast.clear()
-      }, 3000)
+
+      this.$toast.clear()
+      this.$router.replace({
+        name: 'success',
+        params: {
+          message: '提交成功',
+        },
+      })
+      // 提交人姓名
+      this.reportName = ''
+      // 提交人电话
+      this.reportMobile = ''
+      // 上传的图片
+      this.uploader = []
+      this.identityVal = ''
+      this.addressVal = ''
+      this.ditailAddress = ''
+      this.cascaderValue = ''
+      // 详细描述
+      this.detailDes = ''
     },
 
     // 提交失败信息
