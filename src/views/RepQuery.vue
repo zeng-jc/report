@@ -58,6 +58,7 @@ export default {
       console.log(res)
       if (res.data.list.length === 0) {
         this.tipsText = '暂无记录'
+        this.reportList = []
       } else {
         this.reportList = res.data.list
         this.tipsText = ''

@@ -21,7 +21,7 @@
         placeholder="报修人真实电话（必填）"
         :rules="[
           { required: true, message: '请填写电话号码！' },
-          { name: /^1[3456789]\d{9}$/, message: '手机号码格式错误！' },
+          { pattern: /^1[3456789]\d{9}$/, message: '手机号码格式错误！' },
         ]"
       />
       <!--  -->
@@ -173,7 +173,6 @@ export default {
     // 提交失败信息
     onFailed(errorInfo) {
       this.$toast.fail('提交失败')
-      console.log('failed', errorInfo)
     },
     // 选择身份函数
     cmfIdentity(value) {
